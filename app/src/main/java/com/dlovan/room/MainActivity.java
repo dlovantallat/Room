@@ -1,5 +1,6 @@
 package com.dlovan.room;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,5 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CreateUserActivity.class));
             }
         });
+
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "users")
+                .allowMainThreadQueries() // this is bad thing just for test in real app make it in the background
+                .build();
+
+        adapter.setList(db.userDao().getListUser());
     }
 }
