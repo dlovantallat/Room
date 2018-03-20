@@ -1,8 +1,8 @@
 package com.dlovan.room;
 
-import android.support.v7.app.AppCompatActivity;
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +15,7 @@ import android.widget.EditText;
 public class CreateUserActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,18 @@ public class CreateUserActivity extends AppCompatActivity {
         final EditText email = findViewById(R.id.email);
         Button add = findViewById(R.id.add);
 
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "users")
+                .allowMainThreadQueries() // this is bad thing just for test in real app make it in the background
+                .build();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick: Add User" + firstName.getText().toString() + " : " +
-                        lastName.getText().toString() + " : " + email.getText().toString());
+                db.userDao().insertAll(new User(firstName.getText().toString(),
+                        lastName.getText().toString(), email.getText().toString()));
+                finish();
             }
         });
-
     }
 }
