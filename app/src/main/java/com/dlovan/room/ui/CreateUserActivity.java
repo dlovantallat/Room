@@ -1,5 +1,6 @@
 package com.dlovan.room.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dlovan.room.R;
-import com.dlovan.room.db.AppDatabase;
 import com.dlovan.room.db.User;
 
 /**
@@ -32,8 +32,9 @@ public class CreateUserActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-                db.userDao().insertAll(new User(firstName.getText().toString(),
+                UserViewModel userViewModel = ViewModelProviders.of(CreateUserActivity.this)
+                        .get(UserViewModel.class);
+                userViewModel.insertUser(new User(firstName.getText().toString(),
                         lastName.getText().toString(), email.getText().toString()));
                 finish();
             }

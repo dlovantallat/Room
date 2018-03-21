@@ -1,7 +1,10 @@
 package com.dlovan.room.ui;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.dlovan.room.R;
-import com.dlovan.room.db.AppDatabase;
+import com.dlovan.room.db.User;
+
+import java.util.List;
 
 /**
  * MainActivity
@@ -19,6 +24,7 @@ import com.dlovan.room.db.AppDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
+    private UserAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         //setup recycler
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        UserAdapter adapter = new UserAdapter();
+        adapter = new UserAdapter();
         recyclerView.setAdapter(adapter);
 
         //setup fab
@@ -40,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-
-        adapter.setList(db.userDao().getListUser());
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getList().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                adapter.setList(users);
+            }
+        });
     }
 }
