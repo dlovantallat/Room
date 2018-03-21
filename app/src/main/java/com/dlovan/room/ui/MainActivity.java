@@ -1,6 +1,5 @@
-package com.dlovan.room;
+package com.dlovan.room.ui;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.dlovan.room.R;
+import com.dlovan.room.db.AppDatabase;
 
 /**
  * MainActivity
@@ -18,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
 
-    private UserAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         //setup recycler
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter();
+        UserAdapter adapter = new UserAdapter();
         recyclerView.setAdapter(adapter);
 
         //setup fab
@@ -40,10 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "users")
-                .allowMainThreadQueries() // this is bad thing just for test in real app make it in the background
-                .build();
+        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
 
         adapter.setList(db.userDao().getListUser());
     }

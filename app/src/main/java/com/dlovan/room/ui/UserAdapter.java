@@ -1,4 +1,4 @@
-package com.dlovan.room;
+package com.dlovan.room.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.dlovan.room.R;
+import com.dlovan.room.db.User;
 
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mList.size();
     }
 
-    public void setList(List<User> list) {
+    void setList(List<User> list) {
         mList = list;
         notifyDataSetChanged();
     }

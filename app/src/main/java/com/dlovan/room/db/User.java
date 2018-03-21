@@ -1,4 +1,4 @@
-package com.dlovan.room;
+package com.dlovan.room.db;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -21,7 +21,7 @@ public class User {
     @ColumnInfo(name = "email")
     private String email;
 
-    User(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -35,27 +35,15 @@ public class User {
         this.id = id;
     }
 
-    String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    String getEmail() {
+    public String getEmail() {
         return email;
-    }
-
-    void setEmail(String email) {
-        this.email = email;
     }
 }

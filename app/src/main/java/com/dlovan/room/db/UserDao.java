@@ -1,4 +1,4 @@
-package com.dlovan.room;
+package com.dlovan.room.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
